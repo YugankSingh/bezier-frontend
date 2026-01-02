@@ -1,0 +1,25 @@
+.cartSum {
+	box-sizing: border-box;
+	border: 1px solid rgb(176, 176, 176);
+	&:hover {
+		border: 1px solid rgb(216, 216, 216);
+	}
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	padding: 20px 8px;
+	.heading {
+		font-size: 20px;
+	}
+	.subtotal {
+		font-size: 25px;
+	}
+	.proceedButton {
+		min-width: 100px;
+		background-color: #200054;
+		color: white;
+		font-size: 1.2em;
+		border: 1px solid white;;
+
+	}
+}

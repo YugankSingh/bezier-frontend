@@ -1,0 +1,57 @@
+.container {
+	cursor: pointer;
+	border: 1px solid #dddddd41;
+	border-radius: 8px;
+	padding: 16px;
+	background-color: #1a1a1a;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	position: relative;
+	color: #cacaca;
+
+	&.selected {
+		background-color: #000000;
+		border: 2px solid #4caf50;
+		color: white;
+		border: 2px solid white;
+		box-shadow: 0px 4px 8px rgba(0, 128, 0, 0.2);
+	}
+	a {
+		border-bottom: 1px solid transparent;
+		transition: all 0.2s linear;
+	}
+
+	.deleteButton {
+		color: #cf0000;
+		&:hover,
+		&:active {
+			border-bottom: 1px solid #cf0000;
+		}
+	}
+	.makeDefaultButton {
+		color: #0099e3;
+		&:hover,
+		&:active {
+			border-bottom: 1px solid #0099e3;
+		}
+	}
+}
+
+.checkmark {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #4caf50;
+	font-size: 20px;
+}
+
+.name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.contact {
+	font-size: 14px;
+	color: #cacaca;
+}

@@ -1,0 +1,111 @@
+.cartItem {
+	display: flex;
+	flex-direction: row;
+	margin: 0;
+	width: 100%;
+	box-sizing: border-box;
+	transition: all 0.1s ease-in-out;
+	&:hover {
+	}
+
+	.variantImageWrapper {
+		img {
+			width: 170px;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		@media only screen and (max-width: 600px) {
+			img {
+				width: 120px;
+			}
+		}
+		@media only screen and (max-width: 440px) {
+			img {
+				width: 100px;
+			}
+		}
+	}
+	.itemDetails {
+		padding: 20px;
+		h2 {
+			padding: 0;
+			margin: 0;
+			font-size: 2rem;
+			color: rgb(227, 227, 227);
+			@media only screen and (max-width: 850px) {
+				& {
+					font-size: 1.65rem;
+				}
+			}
+			@media only screen and (max-width: 600px) {
+				& {
+					font-size: 1.45rem;
+				}
+			}
+		}
+
+		@media only screen and (max-width: 600px) {
+			& {
+				padding: 10px;
+			}
+		}
+		.quantity {
+			font-size: 1.1em;
+		}
+		.actions {
+			display: flex;
+			flex-direction: row;
+			button {
+				all: unset;
+				box-sizing: border-box;
+				user-select: none;
+				cursor: pointer;
+				text-align: center;
+				height: 40px;
+				width: 40px;
+				line-height: 40px;
+				font-weight: 500;
+				// border: 1px solid rgba(0, 0, 0, 0.1);
+				border-radius: 4px;
+				transition: all 0.07s ease-in-out;
+				padding: 0 5px;
+				margin-right: 4px;
+				background-color: rgb(29, 29, 29);
+				color: rgb(255, 255, 255);
+				font-size: 26px;
+				&:active {
+					user-select: none;
+					font-size: 1.2rem;
+				}
+				@media only screen and (max-width: 700px) {
+					& {
+						height: 30px;
+						width: 30px;
+						line-height: 30px;
+						font-size: 20px;
+					}
+				}
+			}
+			/* style the delete button (third button) distinctly */
+			button:last-child {
+				background-color: #ffebee;
+				color: #d32f2f;
+			}
+			button:last-child:hover {
+				background-color: #ffcdd2;
+			}
+			button:last-child .material-icons {
+				font-size: 22px;
+				line-height: 40px;
+				vertical-align: middle;
+			}
+			@media only screen and (max-width: 700px) {
+				button:last-child .material-icons {
+					font-size: 18px;
+					line-height: 30px;
+				}
+			}
+		}
+	}
+}

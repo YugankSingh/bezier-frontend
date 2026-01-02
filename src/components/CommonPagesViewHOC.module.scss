@@ -1,0 +1,46 @@
+.outerWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.wrapper {
+		padding: 40px;
+		padding-bottom: 80px;
+		min-height: calc(100vh - 180px);
+		width: min(100%, 1200px);
+
+		.actions {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			column-gap: 8px;
+			row-gap: 4px;
+			margin-bottom: 10px;
+			& > button {
+				min-width: 100px;
+			}
+		}
+
+		.main {
+			width: 100%;
+			display: grid;
+			grid-template-columns: 1fr 220px;
+			column-gap: 15px;
+			row-gap: 20px;
+
+			.secondaryDivFirst {
+				display: none;
+			}
+
+			@media only screen and (max-width: 1200px) {
+				& {
+					grid-template-columns: 1fr;
+					.secondaryDivFirst
+					 {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}

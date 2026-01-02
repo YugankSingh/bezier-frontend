@@ -1,0 +1,57 @@
+.login {
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 3px;
+	form {
+		padding: 10px 4px 70px 4px;
+		border: 1px solid rgba(255, 255, 255, 0.427);
+		color: white;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		row-gap: 5px;
+		width: min(400px, 100%);
+		box-sizing: border-box;
+
+		input {
+			padding: 5px;
+			padding-left: 20px;
+		}
+		button {
+			background: black;
+			color: white;
+			cursor: pointer;
+			padding: 10px;
+			padding-left: 20px;
+			&.getSignInLinkButton {
+				text-align: left;
+				padding-left: 70px;
+			}
+
+			&.googleLoginButton {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				svg {
+					width: 30px;
+					height: 30px;
+					margin-right: 20px;
+				}
+			}
+		}
+		h1 {
+			justify-content: center;
+			font-size: 30px;
+			text-align: center;
+		}
+		& > * {
+			width: 100%;
+			box-sizing: border-box;
+			font-size: 20px;
+			height: 50px;
+		}
+	}
+}
