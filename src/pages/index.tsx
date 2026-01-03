@@ -22,27 +22,6 @@ export default function Home() {
 						</Link>
 					</div>
 				</section>
-				<section className={styles.offendingSection}>
-					<h1>Proudly Offending</h1>
-					<div id="#inner">
-						<div>
-							<p>Faat</p>
-							<img src={images.fatguyOffended} alt="Fat Guy Yelling" />
-						</div>
-						<div>
-							<p>Gaay</p>
-							<img src={images.gayOffended} alt="Gay Person" />
-						</div>
-						<div>
-							<p>Faminist</p>
-							<img src={images.feministOffended} alt="Feminist Angry" />
-						</div>
-						<div>
-							<p>Everyone</p>
-							<img src={images.groupOffended} alt="Group of people Spooky" />
-						</div>
-					</div>
-				</section>
 			</main>
 		</>
 	)

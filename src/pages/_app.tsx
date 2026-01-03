@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast"
 import toast from "react-hot-toast"
 import { onAuthStateChanged } from "firebase/auth"
 import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 // import Login from "@/components/Login"
 import { useUserState } from "dukon-core-lib/library/frontend/states/user"
 import Head from "next/head"
@@ -85,7 +86,7 @@ export default function App({
 			<SkeletonTheme baseColor="#e7e7e7" highlightColor="#f3f3f3">
 				<Component {...pageProps} />
 			</SkeletonTheme>
-			{/* <Footer /> */}
+			<Footer />
 		</>
 	)
 }
