@@ -2,7 +2,7 @@
 import React from "react"
 import Link from "next/link"
 import styles from "./Navbar.module.scss"
-import { FiShoppingCart, FiUser } from "react-icons/fi"
+import { FiShoppingCart, FiUser, FiMenu, FiX } from "react-icons/fi"
 
 import { useUserState } from "dukon-core-lib/library/frontend/states/user"
 import { images } from "@/images"
@@ -16,6 +16,11 @@ const navLinks = [
 
 export default function Navbar({}) {
 	const auth = useUserState(state => state.auth)
+	const [isOpen, setIsOpen] = React.useState(false)
+
+	const toggleMenu = () => setIsOpen(prev => !prev)
+	const closeMenu = () => setIsOpen(false)
+
 	return (
 		<header className={styles.sticky}>
 			<nav className={`${styles.nav}`}>
@@ -55,7 +60,77 @@ export default function Navbar({}) {
 						Shop Now
 					</Link>
 				</div>
+
+				<div className={styles.mobileActions}>
+					<Link href="/checkout/cart" className={styles.cartLink}>
+						<FiShoppingCart className={styles.icon} />
+					</Link>
+					<button
+						type="button"
+						onClick={toggleMenu}
+						className={styles.menuButton}
+						aria-label={isOpen ? "Close menu" : "Open menu"}
+						aria-expanded={isOpen}
+					>
+						{isOpen ? (
+							<FiX className={styles.icon} />
+						) : (
+							<FiMenu className={styles.icon} />
+						)}
+					</button>
+				</div>
 			</nav>
+			<div
+				className={`${styles.menuOverlay} ${isOpen ? styles.open : ""}`}
+				onClick={closeMenu}
+			/>
+			<aside className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
+				<div className={styles.mobileMenuContent}>
+					{auth ? (
+						<Link
+							href="/account"
+							onClick={closeMenu}
+							className={styles.mobileAccount}
+						>
+							<FiUser className={styles.icon} />
+							<span>{auth.displayName?.split(" ")[0].slice(0, 12)}</span>
+						</Link>
+					) : (
+						<Link
+							href="/login"
+							onClick={closeMenu}
+							className={styles.mobileAccount}
+						>
+							<FiUser className={styles.icon} />
+							<span>Profile / Account</span>
+						</Link>
+					)}
+					<Link
+						href="/checkout/cart"
+						onClick={closeMenu}
+						className={styles.mobileCart}
+					>
+						<FiShoppingCart className={styles.icon} />
+						<span>Cart</span>
+					</Link>
+					<ul className={styles.mobileNavLinks}>
+						{navLinks.map(link => (
+							<li key={link.href}>
+								<Link href={link.href} onClick={closeMenu}>
+									{link.label}
+								</Link>
+							</li>
+						))}
+					</ul>
+					<Link
+						className={styles.mobileShopButton}
+						href="/shop"
+						onClick={closeMenu}
+					>
+						Shop Now
+					</Link>
+				</div>
+			</aside>
 		</header>
 	)
 }
