@@ -11,13 +11,13 @@
 		"updateLib": "node updateLocalLib.js ../../dukon-lib/library"
 	},
 	"dependencies": {
-		"dukon-core-lib": "file:core/dukon-core-lib-1.0.29.tgz",
+		"dukon-core-lib": "file:core/dukon-core-lib-1.0.41.tgz",
 		"firebase": "^9.17.1",
 		"next": "13.2.1",
 		"react": "^18.2.0",
 		"react-dom": "18.2.0",
-		"react-icons": "^4.12.0",
 		"react-hot-toast": "^2.4.0",
+		"react-icons": "^4.12.0",
 		"react-loading-skeleton": "^3.5.0",
 		"react-markdown": "^9.0.1",
 		"zustand": "^4.4.1"

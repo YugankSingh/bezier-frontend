@@ -32,7 +32,7 @@
 			padding: 0;
 			margin: 0;
 			font-size: 2rem;
-			color: rgb(227, 227, 227);
+			color: var(--primary-text-color);
 			@media only screen and (max-width: 850px) {
 				& {
 					font-size: 1.65rem;
@@ -71,12 +71,17 @@
 				transition: all 0.07s ease-in-out;
 				padding: 0 5px;
 				margin-right: 4px;
-				background-color: rgb(29, 29, 29);
-				color: rgb(255, 255, 255);
+				background-color: var(--surface-color);
+				color: var(--primary-text-color);
+				border: 1px solid var(--border-color);
+				box-shadow: 0 10px 20px var(--shadow-color);
 				font-size: 26px;
 				&:active {
 					user-select: none;
 					font-size: 1.2rem;
+				}
+				&:hover {
+					transform: translateY(-1px);
 				}
 				@media only screen and (max-width: 700px) {
 					& {

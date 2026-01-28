@@ -10,10 +10,11 @@
 	align-items: center;
 	gap: 6px;
 	padding: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.09);
-	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid var(--border-color);
+	background: var(--surface-color);
 	backdrop-filter: blur(4px);
 	border-radius: 10px;
+	box-shadow: 0 12px 22px var(--shadow-color);
 }
 
 .navButton,
@@ -22,22 +23,30 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	gap: 6px;
 	padding: 8px 12px;
 	min-width: 36px;
 	border-radius: 8px;
-	background: #1a1a1a;
-	color: #f0f0f0;
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: var(--surface-color-2);
+	color: var(--primary-text-color);
+	border: 1px solid var(--border-color);
 	cursor: pointer;
-	transition: background 120ms ease, transform 60ms ease, color 120ms ease,
+	transition:
+		background 120ms ease,
+		transform 60ms ease,
+		color 120ms ease,
 		border-color 120ms ease;
 	user-select: none;
 }
 
+.navButton svg {
+	display: block;
+}
+
 .navButton:hover,
 .pageNumber:hover {
-	background: #232323;
-	border-color: rgba(255, 255, 255, 0.14);
+	background: var(--surface-color);
+	border-color: rgba(15, 15, 20, 0.18);
 }
 
 .navButton:active,
@@ -48,17 +57,17 @@
 .navButton:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
-	background: #151515;
+	background: var(--surface-color);
 }
 
 .active {
-	background: #2d2d2d;
+	background: var(--accent-color);
 	color: #ffffff;
-	border-color: rgba(255, 255, 255, 0.22);
+	border-color: rgba(15, 15, 20, 0.12);
 }
 
 .ellipsis {
 	padding: 0 6px;
-	color: rgba(255, 255, 255, 0.6);
+	color: var(--muted-text-color);
 	user-select: none;
 }

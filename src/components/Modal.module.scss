@@ -12,7 +12,10 @@
 		width: 100vw;
 		height: 100vh;
 		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 10;
+		z-index: 1000;
+	}
+	.backdropPayment {
+		background-color: rgba(0, 0, 0, 0.68);
 	}
 	.content {
 		overflow-y: scroll;
@@ -29,11 +32,44 @@
 		max-width: 90vw;
 		background-color: #2f2f2f;
 		color: white;
-		z-index: 10;
+		z-index: 1001;
 		padding: 40px;
 
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 		border-radius: 4px;
+	}
+	.contentPayment {
+		overflow: hidden;
+		padding: 16px;
+		background: var(--surface-color);
+		color: var(--primary-text-color);
+		border-radius: 16px;
+		width: auto;
+		height: 92vh;
+		max-width: calc(100vw - 24px);
+		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+	.closeButton {
+		all: unset;
+		position: absolute;
+		top: 10px;
+		right: 12px;
+		width: 34px;
+		height: 34px;
+		border-radius: 999px;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+		color: var(--primary-text-color);
+		background: rgba(15, 15, 20, 0.08);
+		border: 1px solid var(--border-color);
+		font-size: 22px;
+		line-height: 1;
+		user-select: none;
+	}
+	.closeButton:hover {
+		background: rgba(15, 15, 20, 0.12);
 	}
 	.buttons {
 		display: flex;

@@ -4,6 +4,8 @@ import OrderView from "./OrderView"
 import styles from "./OrdersList.module.scss"
 import { callFunction } from "dukon-core-lib/library/frontend/util/callFunction"
 import { Order } from "dukon-core-lib/library/common/types"
+import ChevronLeftIcon from "@/icons/ChevronLeftIcon"
+import ChevronRightIcon from "@/icons/ChevronRightIcon"
 
 function OrdersList() {
 	const [orders, setOrders] = useState<Order[] | null>(null)
@@ -62,7 +64,8 @@ function OrdersList() {
 						disabled={page <= 1 || isLoading}
 						aria-label="Previous page"
 					>
-						‹ Prev
+						<ChevronLeftIcon size={18} />
+						<span>Prev</span>
 					</button>
 					<span className={styles.pageNumber}>Page {page}</span>
 					<button
@@ -71,7 +74,14 @@ function OrdersList() {
 						disabled={!hasNextPage || isLoading}
 						aria-label="Next page"
 					>
-						{isLoading ? "Loading…" : "Next ›"}
+						{isLoading ? (
+							"Loading…"
+						) : (
+							<>
+								<span>Next</span>
+								<ChevronRightIcon size={18} />
+							</>
+						)}
 					</button>
 				</div>
 			</div>

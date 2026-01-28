@@ -12,6 +12,8 @@ import hocStyles from "@/components/CommonPagesViewHOC.module.scss"
 import CommonPagesViewHOC from "@/components/CommonPagesViewHOC"
 import styles from "./MakeyPayment.module.scss"
 import { images } from "@/images"
+import type { CashfreePaymentPageInitMessage } from "dukon-core-lib/library/common/types"
+import Modal from "@/components/Modal"
 
 function LoadingPayPage() {
 	return <Skeleton height={600} width={`100%`} />
@@ -26,6 +28,7 @@ function PayPage() {
 	const address = useOrderState(state => state.address)
 	const iframeRef = useRef<HTMLIFrameElement>(null)
 	const [isIframeLoaded, setIsIframeLoaded] = useState<boolean>(false)
+	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(true)
 	const backFromPaymentPage = useOrderState(state => state.backFromPaymentPage)
 	const orderID = useOrderState(state => state.orderID)
 
@@ -38,6 +41,14 @@ function PayPage() {
 		if (!cartItems || !cartItems.length || !address)
 			router.push("/checkout/cart")
 	}, [cartItems, router])
+
+	useEffect(() => {
+		if (payment && orderID) setIsPaymentModalOpen(true)
+	}, [payment, orderID])
+
+	useEffect(() => {
+		if (isPaymentModalOpen) setIsIframeLoaded(false)
+	}, [isPaymentModalOpen])
 
 	const handleMessageFromPaymentPage = (event: MessageEvent<any>) => {
 		if (event.origin !== adminConfig.paymentsPageOrigin) return
@@ -92,36 +103,60 @@ function PayPage() {
 					name: websiteConfig.name,
 					url: websiteConfig.frontendOrigin,
 				},
-			}),
-			adminConfig.paymentsPageOrigin
+			} satisfies CashfreePaymentPageInitMessage),
+			adminConfig.paymentsPageOrigin,
 		)
 	}, [payment, isIframeLoaded])
 
-	if (!cartItems || !cartItems.length || !address)
-		return <LoadingPayPage />
+	if (!cartItems || !cartItems.length || !address) return <LoadingPayPage />
 
 	if (!payment) {
 		createOrderInServer()
 		return <LoadingPayPage />
 	}
-	if(!orderID) {
+	if (!orderID) {
 		return <LoadingPayPage />
 	}
 
 	const bgColor = "000000"
 	return (
-		<div className={`${styles.paymentSection}`}>
-			<iframe
-				height={"100%"}
-				width={"100%"}
-				ref={iframeRef}
-				style={
-					{
-						// display: isIframeLoaded ? "block" : "none",
-					}
-				}
-				src={`${adminConfig.paymentsPageOrigin}/checkout/payment/${payment.pg}?storeID=${websiteConfig.storeID}&bgColor=${bgColor}`}
-			></iframe>
+		<div className={styles.page}>
+			<div className={styles.actions}>
+				<button type="button" className="button2" onClick={onBack}>
+					Back
+				</button>
+				<button
+					type="button"
+					className="button important"
+					onClick={() => setIsPaymentModalOpen(true)}
+				>
+					Open payment
+				</button>
+			</div>
+
+			<Modal
+				shouldShow={isPaymentModalOpen}
+				handleClose={() => setIsPaymentModalOpen(false)}
+				variant="payment"
+				closeOnBackdropClick={false}
+				hideActions={true}
+			>
+				<div className={styles.modalInner}>
+					<div className={styles.paymentFrameWrap}>
+						{!isIframeLoaded ? (
+							<div className={styles.loadingOverlay}>
+								<Skeleton height={420} width={`100%`} />
+							</div>
+						) : null}
+						<iframe
+							title="Payment"
+							ref={iframeRef}
+							className={styles.paymentFrame}
+							src={`${adminConfig.paymentsPageOrigin}/checkout/payment/${payment.pg}?storeID=${websiteConfig.storeID}&bgColor=${bgColor}`}
+						></iframe>
+					</div>
+				</div>
+			</Modal>
 		</div>
 	)
 }

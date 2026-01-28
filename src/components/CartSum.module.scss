@@ -1,8 +1,11 @@
 .cartSum {
 	box-sizing: border-box;
-	border: 1px solid rgb(176, 176, 176);
+	border: 1px solid var(--border-color);
+	background: var(--surface-color);
+	border-radius: 14px;
+	box-shadow: 0 14px 28px var(--shadow-color);
 	&:hover {
-		border: 1px solid rgb(216, 216, 216);
+		border: 1px solid rgba(15, 15, 20, 0.18);
 	}
 	display: flex;
 	flex-flow: column;
@@ -16,10 +19,11 @@
 	}
 	.proceedButton {
 		min-width: 100px;
-		background-color: #200054;
-		color: white;
+		background-color: var(--accent-color);
+		color: #ffffff;
 		font-size: 1.2em;
-		border: 1px solid white;;
-
+		border: 1px solid rgba(15, 15, 20, 0.12);
+		border-radius: 12px;
+		box-shadow: 0 10px 22px rgba(247, 93, 123, 0.18);
 	}
 }

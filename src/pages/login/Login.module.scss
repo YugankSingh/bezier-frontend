@@ -7,8 +7,11 @@
 	padding: 40px 3px;
 	form {
 		padding: 10px 4px 70px 4px;
-		border: 1px solid rgba(255, 255, 255, 0.427);
-		color: white;
+		border: 1px solid var(--border-color);
+		background: var(--surface-color);
+		color: var(--primary-text-color);
+		border-radius: 14px;
+		box-shadow: 0 14px 30px var(--shadow-color);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
@@ -21,17 +24,31 @@
 			padding-left: 20px;
 		}
 		button {
-			background: black;
-			color: white;
+			background: var(--accent-color);
+			color: #ffffff;
 			cursor: pointer;
 			padding: 10px;
 			padding-left: 20px;
+			border: 1px solid rgba(15, 15, 20, 0.12);
+			border-radius: 12px;
+			box-shadow: 0 10px 22px rgba(247, 93, 123, 0.18);
+			transition:
+				transform 0.08s ease,
+				box-shadow 0.12s ease,
+				background-color 0.12s ease;
+			&:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 14px 26px rgba(247, 93, 123, 0.22);
+			}
 			&.getSignInLinkButton {
 				text-align: left;
 				padding-left: 70px;
 			}
 
 			&.googleLoginButton {
+				background: var(--surface-color-2);
+				color: var(--primary-text-color);
+				box-shadow: 0 10px 20px var(--shadow-color);
 				display: flex;
 				flex-direction: row;
 				align-items: center;

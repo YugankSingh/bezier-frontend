@@ -6,21 +6,21 @@
 	line-height: 1.6em;
 
 	max-width: 42em;
-	color: #ffffff; // primary text (off-white)
+	color: var(--primary-text-color);
 
 	/* Links */
 	a {
-		color: #58a6ff;
+		color: var(--accent-color-2);
 		text-decoration: none;
 	}
 	a:visited {
-		color: #8b949e;
+		color: rgba(108, 92, 231, 0.7);
 	}
 	a:hover {
-		color: #79c0ff;
+		color: rgba(108, 92, 231, 0.9);
 	}
 	a:active {
-		color: #f78166;
+		color: var(--accent-color);
 	}
 	a:focus {
 		outline: thin dotted;
@@ -32,12 +32,12 @@
 
 	/* Text selection */
 	::selection {
-		background: rgba(88, 166, 255, 0.3);
-		color: #ffffff;
+		background: rgba(247, 93, 123, 0.22);
+		color: var(--primary-text-color);
 	}
 	::-moz-selection {
-		background: rgba(88, 166, 255, 0.3);
-		color: #ffffff;
+		background: rgba(247, 93, 123, 0.22);
+		color: var(--primary-text-color);
 	}
 
 	p {
@@ -57,7 +57,7 @@
 	h5,
 	h6 {
 		font-weight: normal;
-		color: #f0f6fc;
+		color: var(--primary-text-color);
 		line-height: 1.2em;
 	}
 	h4,
@@ -86,16 +86,16 @@
 
 	/* Blockquote */
 	blockquote {
-		color: #9da7b3;
+		color: var(--muted-text-color);
 		margin: 0;
 		padding-left: 1.5em;
-		border-left: 4px solid #30363d;
+		border-left: 4px solid var(--accent-color);
 	}
 
 	/* Divider */
 	hr {
 		border: 0;
-		border-top: 1px solid #30363d;
+		border-top: 1px solid var(--border-color);
 		margin: 1.5em 0;
 	}
 
@@ -104,8 +104,8 @@
 	code,
 	kbd,
 	samp {
-		color: #e6edf3;
-		background: #161b22;
+		color: var(--code-fg);
+		background: var(--code-bg);
 		font-family: monospace, monospace;
 		font-size: 0.95em;
 		border-radius: 6px;
@@ -126,7 +126,7 @@
 	b,
 	strong {
 		font-weight: bold;
-		color: #f0f6fc;
+		color: var(--primary-text-color);
 	}
 
 	dfn {
@@ -134,14 +134,14 @@
 	}
 
 	ins {
-		background: #238636;
-		color: #ffffff;
+		background: rgba(46, 204, 113, 0.25);
+		color: var(--primary-text-color);
 		text-decoration: none;
 	}
 
 	mark {
-		background: #bb8009;
-		color: #ffffff;
+		background: rgba(255, 211, 77, 0.55);
+		color: var(--primary-text-color);
 		font-style: italic;
 		font-weight: bold;
 	}
@@ -170,7 +170,7 @@
 	}
 	li {
 		margin-left: 15px;
-		color: #e6edf3;
+		color: var(--primary-text-color);
 	}
 	ul,
 	ol,
@@ -192,12 +192,12 @@
 		width: 100%;
 	}
 	th {
-		border-bottom: 1px solid #30363d;
-		color: #f0f6fc;
+		border-bottom: 1px solid var(--border-color);
+		color: var(--primary-text-color);
 	}
 	td {
 		vertical-align: top;
-		border-bottom: 1px solid #21262d;
+		border-bottom: 1px solid var(--border-color);
 	}
 
 	/* Responsive */

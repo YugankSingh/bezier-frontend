@@ -6,9 +6,14 @@ const variableConfig = {
 	frontendOrigin: "http://localhost:3000",
 }
 
+if (environment === "frontend-dev") {
+	// keep default localhost
+}
+
 if (environment === "preview") {
 	variableConfig["frontendOrigin"] = "https://dev.bezier.dukon.in"
 }
+
 if (environment === "production") {
 	variableConfig["frontendOrigin"] = "https://bezier.dukon.in"
 }

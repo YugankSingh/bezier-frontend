@@ -4,7 +4,6 @@
 	border-radius: 8px;
 	margin-bottom: 40px;
 
-
 	&__items {
 		display: flex;
 		flex-wrap: wrap;
@@ -13,7 +12,7 @@
 	}
 
 	.orderWrapperLink {
-		color: #e5e5e5;
+		color: var(--primary-text-color);
 	}
 	h1,
 	h2,
@@ -24,7 +23,7 @@
 	}
 	h1 {
 		font-size: 24px;
-		color: #cdcdcd;
+		color: var(--primary-text-color);
 	}
 	.orderAmount {
 		font-size: 21px;
@@ -62,10 +61,10 @@
 
 	&__details {
 		font-size: 14px;
-		color: #ffffff;
+		color: var(--muted-text-color);
 
 		strong {
-			color: #ffffff;
+			color: var(--primary-text-color);
 		}
 
 		div {

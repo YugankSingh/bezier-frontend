@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import styles from "./AddAddress.module.scss"
-import { useUserState } from "dukon-core-lib/library/frontend/states/user"
-import { useOrderState } from "dukon-core-lib/library/frontend/states/order"
 import { AddressDTO, AddressErrors } from "dukon-core-lib/library/common/types"
-import { useRouter } from "next/router"
 import toast from "react-hot-toast"
 import { useAddressState } from "dukon-core-lib/library/frontend/states/address"
 import Modal from "./Modal"
@@ -36,7 +33,7 @@ const emptyAddress: AddressDTO = {
 		state: "",
 	},
 	...Object.fromEntries(
-		addressFields.map(field => [field.id, field.defaultValue || ""])
+		addressFields.map(field => [field.id, field.defaultValue || ""]),
 	),
 }
 
@@ -52,68 +49,55 @@ function AddAddressForm({
 	addressError,
 }: AddAddressFormProps) {
 	return (
-		<div>
-			<br />
-			<div>
-				{addressFields.map((field, index) => (
-					<div className="s12 input-field white-text" key={field.id}>
-						{field.type === "select" ? (
-							<>
-								<div>{field.label}</div>
+		<div className={styles.form}>
+			<div className={styles.grid}>
+				{addressFields.map((field, index) => {
+					const error = addressError[field.id as keyof AddressErrors] || ""
+					return (
+						<div className={styles.field} key={field.id}>
+							<label htmlFor={field.id} className={styles.label}>
+								{field.label}
+							</label>
+							{field.type === "select" ? (
 								<select
 									id={field.id}
+									className={styles.select}
 									onChange={e =>
 										onChangeAddress(index, field.id, e.target.value)
 									}
-									className="white-text"
 									value={address[field.id as keyof AddressDTO]}
+									required
 								>
-									{field.isDefaultName && (
-										<option
-											value=""
-											disabled
-											className="grey-text text-lighten-1"
-										>
+									{field.isDefaultName ? (
+										<option value="" disabled>
 											{field.label}
 										</option>
-									)}
+									) : null}
 									{field.selectOptions?.map(option => (
-										<option
-											value={option.value}
-											className="white-text"
-											key={option.value}
-										>
+										<option value={option.value} key={option.value}>
 											{option.name}
 										</option>
 									))}
 								</select>
-								<span className="helper-text red-text text-lighten-2">
-									{addressError[field.id as keyof AddressErrors] || ""}
-								</span>
-							</>
-						) : (
-							<>
-								<label htmlFor={field.id} className="active white-text">
-									{field.label}
-								</label>
+							) : (
 								<input
 									id={field.id}
 									type={field.type}
-									className="white-text validate"
+									className={styles.input}
 									onChange={e =>
 										onChangeAddress(index, field.id, e.target.value)
 									}
 									value={address[field.id as keyof AddressDTO]}
 									required
 								/>
-								<span className="helper-text red-text text-lighten-2">
-									{addressError[field.id as keyof AddressErrors] || ""}
-								</span>
-							</>
-						)}
-					</div>
-				))}
-			</div>{" "}
+							)}
+							<div className={styles.error} aria-live="polite">
+								{error}
+							</div>
+						</div>
+					)
+				})}
+			</div>
 		</div>
 	)
 }
@@ -131,7 +115,7 @@ function AddAddressWrapper() {
 		const addressField = addressFields[index]
 		const { isError, shouldWrite, error } = checkAddressField(
 			value,
-			addressField
+			addressField,
 		)
 		if (!isError) {
 			setAddressError(prevErrors => ({ ...prevErrors, [field]: "" }))
@@ -174,9 +158,13 @@ function AddAddressWrapper() {
 
 	return (
 		<div>
-			<a className="button important" onClick={() => setIsModalOpen(true)}>
+			<button
+				type="button"
+				className={`button important ${styles.addButton}`}
+				onClick={() => setIsModalOpen(true)}
+			>
 				Add new address
-			</a>
+			</button>
 			<Modal
 				handleClose={onClearAll}
 				handleProceed={onProceed}
