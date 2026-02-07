@@ -3,7 +3,7 @@ import styles from "./OrderDetails.module.scss"
 import DisplayImage from "./DisplayImage"
 import Link from "next/link"
 import { Order, OrderItem, Product } from "dukon-core-lib/library/common/types"
-import { orderStatusMapDark } from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
+import { orderStatusMap } from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
 import {
 	destringifyVariant,
 	getVariantMapList,
@@ -43,7 +43,7 @@ function ProductRow({ item }: { item: OrderItem }) {
 		const vmList = getVariantMapList(
 			variant,
 			product.variants,
-			product.variantsOrder
+			product.variantsOrder,
 		)
 
 		console.log("variant in order details ", variant)
@@ -94,12 +94,12 @@ function ProductRow({ item }: { item: OrderItem }) {
 export default function OrderDetails({ order }: { order: Order }) {
 	const orderIDBase64 = useMemo(
 		() => Buffer.from(order._id, "hex").toString("base64"),
-		[order._id]
+		[order._id],
 	)
 	const createdAt = new Date(order.createdAt).toDateString()
-	const statusMeta = orderStatusMapDark[order.orderStatus] || {
+	const statusMeta = orderStatusMap[order.orderStatus] || {
 		text: "Unknown",
-		color: "#E5E7EB",
+		color: "var(--primary-text-color)",
 	}
 
 	const itemsSubtotal = useMemo(() => {
@@ -186,8 +186,8 @@ export default function OrderDetails({ order }: { order: Order }) {
 								<span>
 									{order.delivery?.expectedDeliveryDate
 										? new Date(
-												order.delivery.expectedDeliveryDate
-										  ).toDateString()
+												order.delivery.expectedDeliveryDate,
+											).toDateString()
 										: "—"}
 								</span>
 							</div>

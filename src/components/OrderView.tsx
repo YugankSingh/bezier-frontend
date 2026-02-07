@@ -4,9 +4,7 @@ import styles from "./OrderView.module.scss"
 import { Order, OrderItem } from "dukon-core-lib/library/common/types"
 import { stringOrObjectID } from "dukon-core-lib/library/common/util"
 import Link from "next/link"
-import {
-	orderStatusMapDark,
-} from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
+import { orderStatusMap } from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
 
 function OrderItemView({ orderItem }: { orderItem: OrderItem }) {
 	const { productVersioned, quantity } = orderItem
@@ -49,10 +47,9 @@ function OrderView({ order }: { order: Order }) {
 					<p className={styles.orderAmount}>Rs.{order.payment.amount}</p>
 					<p
 						className={`${styles.orderStatus}`}
-						style={{ color: orderStatusMapDark[order.orderStatus]?.color }}
+						style={{ color: orderStatusMap[order.orderStatus]?.color }}
 					>
-						{orderStatusMapDark[order.orderStatus]?.text ||
-							"Invalid Order Status"}
+						{orderStatusMap[order.orderStatus]?.text || "Invalid Order Status"}
 					</p>
 					<p className={styles.orderCreationDate}>Placed On - {orderDate}</p>
 					<div className={styles.orderView__items}>
