@@ -4,7 +4,7 @@ import DisplayImage from "./DisplayImage"
 import Link from "next/link"
 import { Order, OrderItem, Product } from "dukon-core-lib/library/common/types"
 import { orderStatusMap } from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
-import { mongoIdToBase64 } from "dukon-core-lib/library/common/util"
+import { mongoIdToBase64Url } from "dukon-core-lib/library/common/util"
 import {
 	destringifyVariant,
 	getVariantMapList,
@@ -94,7 +94,7 @@ function ProductRow({ item }: { item: OrderItem }) {
 
 export default function OrderDetails({ order }: { order: Order }) {
 	const orderIDBase64 = useMemo(
-		() => mongoIdToBase64(order._id),
+		() => mongoIdToBase64Url(order._id),
 		[order._id],
 	)
 	const createdAt = new Date(order.createdAt).toDateString()

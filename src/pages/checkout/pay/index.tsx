@@ -14,7 +14,7 @@ import styles from "./MakeyPayment.module.scss"
 import { images } from "@/images"
 import type { CashfreePaymentPageInitMessage } from "dukon-core-lib/library/common/types"
 import Modal from "@/components/Modal"
-import { mongoIdToBase64 } from "dukon-core-lib/library/common/util"
+import { mongoIdToBase64Url } from "dukon-core-lib/library/common/util"
 
 function LoadingPayPage() {
 	return <Skeleton height={600} width={`100%`} />
@@ -61,7 +61,7 @@ function PayPage() {
 			if (message == "done") {
 				const orderID = useOrderState.getState().orderID
 				if (orderID) {
-					const base64OrderID = mongoIdToBase64(orderID)
+					const base64OrderID = mongoIdToBase64Url(orderID)
 					router.push(`/checkout/payment-confirmation/${base64OrderID}`)
 				} else {
 					router.push("/checkout/payment-confirmation/invalid")
