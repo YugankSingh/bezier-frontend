@@ -14,6 +14,7 @@ import styles from "./MakeyPayment.module.scss"
 import { images } from "@/images"
 import type { CashfreePaymentPageInitMessage } from "dukon-core-lib/library/common/types"
 import Modal from "@/components/Modal"
+import { mongoIdToBase64 } from "dukon-core-lib/library/common/util"
 
 function LoadingPayPage() {
 	return <Skeleton height={600} width={`100%`} />
@@ -58,21 +59,9 @@ function PayPage() {
 			if (message == "loaded") setIsIframeLoaded(true)
 			if (message.startsWith("error:")) toast.error(message.slice(6))
 			if (message == "done") {
+				const orderID = useOrderState.getState().orderID
 				if (orderID) {
-					let base64OrderID = ""
-					try {
-						if (/^[0-9a-fA-F]+$/.test(orderID) && orderID.length % 2 === 0) {
-							base64OrderID = Buffer.from(orderID, "hex").toString("base64")
-						} else {
-							// assume already base64 or fallback to base64-encoding the raw string
-							const test = Buffer.from(orderID, "base64")
-							base64OrderID = test.length
-								? orderID
-								: Buffer.from(orderID).toString("base64")
-						}
-					} catch {
-						base64OrderID = orderID
-					}
+					const base64OrderID = mongoIdToBase64(orderID)
 					router.push(`/checkout/payment-confirmation/${base64OrderID}`)
 				} else {
 					router.push("/checkout/payment-confirmation/invalid")
@@ -121,6 +110,7 @@ function PayPage() {
 	const bgColor = "000000"
 	return (
 		<div className={styles.page}>
+			<pre>{JSON.stringify({ orderID }, null, 2)}</pre>
 			<div className={styles.actions}>
 				<button type="button" className="button2" onClick={onBack}>
 					Back
