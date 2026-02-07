@@ -2,7 +2,7 @@ import React from "react"
 import DisplayImage from "./DisplayImage" // Ensure the correct import path for DisplayImage
 import styles from "./OrderView.module.scss"
 import { Order, OrderItem } from "dukon-core-lib/library/common/types"
-import { stringOrObjectID } from "dukon-core-lib/library/common/util"
+import { mongoIdToBase64, stringOrObjectID } from "dukon-core-lib/library/common/util"
 import Link from "next/link"
 import { orderStatusMap } from "dukon-core-lib/library/admin-frontend/util/orderStatusMaps"
 
@@ -35,7 +35,7 @@ function OrderItemView({ orderItem }: { orderItem: OrderItem }) {
 
 function OrderView({ order }: { order: Order }) {
 	const orderDate = new Date(order.createdAt).toDateString()
-	const orderID = Buffer.from(order._id, "hex").toString("base64")
+	const orderID = mongoIdToBase64(order._id)
 
 	return (
 		<>

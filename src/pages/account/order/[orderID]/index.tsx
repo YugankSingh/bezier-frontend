@@ -10,6 +10,7 @@ import hocStyles from "@/components/CommonPagesViewHOC.module.scss"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import { tryBase64ToMongoId } from "dukon-core-lib/library/common/util"
 
 function Order() {
 	const userAuth = useUserState(state => state.auth)
@@ -30,7 +31,15 @@ function Order() {
 			</div>
 		)
 
-	const hexOrderID = Buffer.from(orderID, "base64").toString("hex")
+	const hexOrderID = tryBase64ToMongoId(orderID)
+
+	if (!hexOrderID)
+		return (
+			<div>
+				<p className="error">Invalid order ID</p>
+				<Link href="/account">Back to orders</Link>
+			</div>
+		)
 
 	useEffect(() => {
 		let mounted = true
@@ -83,5 +92,5 @@ function Order() {
 }
 
 export default ProtectedRoutesHOC(
-	CommonPagesViewHOC(<Order />, "Order Details")
+	CommonPagesViewHOC(<Order />, "Order Details"),
 )

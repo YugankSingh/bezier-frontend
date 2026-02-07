@@ -110,7 +110,6 @@ function PayPage() {
 	const bgColor = "000000"
 	return (
 		<div className={styles.page}>
-			<pre>{JSON.stringify({ orderID }, null, 2)}</pre>
 			<div className={styles.actions}>
 				<button type="button" className="button2" onClick={onBack}>
 					Back

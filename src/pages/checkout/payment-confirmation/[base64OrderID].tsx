@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { tryBase64ToMongoId } from "dukon-core-lib/library/common/util"
 
 function PaymentConfirmationPage() {
 	const router = useRouter()
@@ -14,18 +15,15 @@ function PaymentConfirmationPage() {
 	const [message, setMessage] = useState("")
 	const [status, setStatus] = useState<null | string>(null)
 	const [success, setSuccess] = useState<null | boolean>(null)
+	const [secondsLeft, setSecondsLeft] = useState<number>(10)
 
 	const resetCurrentOrder = useOrderState(state => state.resetCurrentOrder)
 
 	const { isValid, hexOrderID } = useMemo(() => {
 		if (typeof base64OrderID !== "string")
 			return { isValid: false, hexOrderID: "" }
-		try {
-			const hex = Buffer.from(base64OrderID, "base64").toString("hex")
-			return { isValid: !!hex, hexOrderID: hex }
-		} catch {
-			return { isValid: false, hexOrderID: "" }
-		}
+		const hex = tryBase64ToMongoId(base64OrderID)
+		return { isValid: !!hex, hexOrderID: hex || "" }
 	}, [base64OrderID])
 
 	useEffect(() => {
@@ -49,6 +47,23 @@ function PaymentConfirmationPage() {
 			mounted = false
 		}
 	}, [isValid, hexOrderID])
+
+	useEffect(() => {
+		if (success !== true) return
+		if (typeof base64OrderID !== "string") return
+
+		setSecondsLeft(10)
+		const redirectTimeout = window.setTimeout(() => {
+			router.push(`/account/order/${base64OrderID}`)
+		}, 10_000)
+		const ticker = window.setInterval(() => {
+			setSecondsLeft(prev => (prev > 0 ? prev - 1 : 0))
+		}, 1_000)
+		return () => {
+			window.clearTimeout(redirectTimeout)
+			window.clearInterval(ticker)
+		}
+	}, [success, base64OrderID, router])
 
 	if (typeof base64OrderID !== "string") return <div>Invalid order ID</div>
 	if (base64OrderID === "invalid")
@@ -83,7 +98,7 @@ function PaymentConfirmationPage() {
 						{message || "Your payment has been confirmed."}
 					</p>
 					<p style={{ color: "#666", marginBottom: 20 }}>
-						Redirecting to your order details…
+						Redirecting to your order details in {secondsLeft}s…
 					</p>
 					{hexOrderID ? (
 						<Link
@@ -119,5 +134,5 @@ function PaymentConfirmationPage() {
 }
 
 export default ProtectedRoutesHOC(
-	CommonPagesViewHOC(<PaymentConfirmationPage />, "Payment Confirmation")
+	CommonPagesViewHOC(<PaymentConfirmationPage />, "Payment Confirmation"),
 )
