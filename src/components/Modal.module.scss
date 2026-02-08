@@ -40,15 +40,15 @@
 	}
 	.contentPayment {
 		overflow: hidden;
-		padding: 16px;
-		background: var(--surface-color);
+		padding: 0;
+		background: transparent;
 		color: var(--primary-text-color);
-		border-radius: 16px;
-		width: auto;
+		border-radius: 0;
+		width: 100vw;
 		height: 92vh;
-		max-width: calc(100vw - 24px);
-		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-		border: 1px solid rgba(255, 255, 255, 0.08);
+		max-width: 100vw;
+		box-shadow: none;
+		border: none;
 	}
 	.closeButton {
 		all: unset;
