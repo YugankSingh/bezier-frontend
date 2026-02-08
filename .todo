@@ -1,6 +1,7 @@
 
 - fix the post payment confirmation part
 - fix the issue with deleted products
+- fix the bug that while decreasing the quantity it says increasing.
 
 - Improve the shop now button when the cart is empty.
 - add footer with contact section
