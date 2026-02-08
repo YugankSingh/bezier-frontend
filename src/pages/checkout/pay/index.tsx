@@ -107,7 +107,7 @@ function PayPage() {
 		return <LoadingPayPage />
 	}
 
-	const bgColor = "000000"
+	const bgColor = "00000000"
 	return (
 		<div className={styles.page}>
 			<div className={styles.actions}>
@@ -134,14 +134,16 @@ function PayPage() {
 					<div className={styles.paymentFrameWrap}>
 						{!isIframeLoaded ? (
 							<div className={styles.loadingOverlay}>
-								<Skeleton height={420} width={`100%`} />
+								<div className={styles.loadingCard}>
+									<Skeleton height={`100%`} width={`100%`} />
+								</div>
 							</div>
 						) : null}
 						<iframe
 							title="Payment"
 							ref={iframeRef}
 							className={styles.paymentFrame}
-							src={`${adminConfig.paymentsPageOrigin}/checkout/payment/${payment.pg}?storeID=${websiteConfig.storeID}&bgColor=${bgColor}`}
+							src={`${adminConfig.paymentsPageOrigin}/checkout/payment/${payment.pg}?storeID=${websiteConfig.storeID}&bgColor=${encodeURIComponent(bgColor)}`}
 						></iframe>
 					</div>
 				</div>
