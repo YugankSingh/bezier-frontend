@@ -16,8 +16,8 @@ function DisplayImage({
 	loadingImageUrl,
 	onClick = () => {},
 }: {
-	image: Image
-	imageKey: string
+	image?: Image
+	imageKey?: string
 	mediaType: MediaTypeNames
 	storeID?: string
 	className?: string
@@ -29,13 +29,17 @@ function DisplayImage({
 	// const app = useStoreState(state => state.app)
 
 	useEffect(() => {
+		if (!image || !imageKey) {
+			setSource(loadingImageUrl || grayImage)
+			return
+		}
 		// if (image.source === "firebaseStorage") {
 		// if (!app) return
 		// 	setSource(imageURL(imageKey, image, app.options.projectId))
 		// } else {
 		setSource(mediaURL(imageKey, image, storeID, mediaType))
 		// }
-	}, [image])
+	}, [image, imageKey, loadingImageUrl, mediaType, storeID])
 
 	return (
 		<img

@@ -14,8 +14,8 @@ function OrderItemView({ orderItem }: { orderItem: OrderItem }) {
 	if (typeof productVersioned === "string" || !productVersioned.product)
 		return <p className="error">Invalid data from server</p>
 	const product = productVersioned.product
-	const imageKey = product.images.order[0]
-	const imageObject = product.images.list[imageKey]
+	const imageKey = product.images?.order?.[0]
+	const imageObject = imageKey ? product.images?.list?.[imageKey] : undefined
 
 	return (
 		<div className={styles.orderItem}>
@@ -37,8 +37,11 @@ function OrderItemView({ orderItem }: { orderItem: OrderItem }) {
 }
 
 function OrderView({ order }: { order: Order }) {
-	const orderDate = new Date(order.createdAt).toDateString()
+	const orderDate = order.createdAt
+		? new Date(order.createdAt).toDateString()
+		: "—"
 	const orderID = mongoIdToBase64Url(order._id)
+	const amount = order.payment?.amount
 
 	return (
 		<>
@@ -47,7 +50,9 @@ function OrderView({ order }: { order: Order }) {
 					href={`/account/order/${orderID}`}
 					className={styles.orderWrapperLink}
 				>
-					<p className={styles.orderAmount}>Rs.{order.payment.amount}</p>
+					<p className={styles.orderAmount}>
+						Rs.{typeof amount === "number" ? amount : "—"}
+					</p>
 					<p
 						className={`${styles.orderStatus}`}
 						style={{ color: orderStatusMap[order.orderStatus]?.color }}
@@ -56,7 +61,7 @@ function OrderView({ order }: { order: Order }) {
 					</p>
 					<p className={styles.orderCreationDate}>Placed On - {orderDate}</p>
 					<div className={styles.orderView__items}>
-						{order.orderItems.map(orderItem => (
+						{(order.orderItems || []).map(orderItem => (
 							<OrderItemView
 								key={stringOrObjectID(orderItem.productVersioned)}
 								orderItem={orderItem}
