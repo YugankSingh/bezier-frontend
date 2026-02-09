@@ -11,7 +11,7 @@
 		"updateLib": "node updateLocalLib.js ../../dukon-lib/library"
 	},
 	"dependencies": {
-		"dukon-core-lib": "file:core/dukon-core-lib-1.0.45.tgz",
+		"dukon-core-lib": "file:core/dukon-core-lib-1.0.48.tgz",
 		"firebase": "^9.17.1",
 		"next": "13.2.1",
 		"react": "^18.2.0",
