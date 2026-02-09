@@ -97,7 +97,9 @@ export default function OrderDetails({ order }: { order: Order }) {
 		() => mongoIdToBase64Url(order._id),
 		[order._id],
 	)
-	const createdAt = new Date(order.createdAt).toDateString()
+	const createdAt = order.createdAt
+		? new Date(order.createdAt).toDateString()
+		: "—"
 	const statusMeta = orderStatusMap[order.orderStatus] || {
 		text: "Unknown",
 		color: "var(--primary-text-color)",
@@ -135,7 +137,7 @@ export default function OrderDetails({ order }: { order: Order }) {
 					<div className={styles.section}>
 						<h4 className={styles.sectionTitle}>Products</h4>
 						<div className={styles.productsList}>
-							{order.orderItems.map(oi => (
+							{(order.orderItems || []).map(oi => (
 								<ProductRow
 									key={(oi as any)._id || oi.variantListKey}
 									item={oi}
@@ -146,23 +148,27 @@ export default function OrderDetails({ order }: { order: Order }) {
 
 					<div className={styles.section} style={{ marginTop: 16 }}>
 						<h4 className={styles.sectionTitle}>Shipping Address</h4>
-						<div className={styles.address}>
-							<div className={styles.address__name}>{order.address.name}</div>
-							<div className={styles.address__line}>
-								{order.address.contactNumber}
+						{order.address ? (
+							<div className={styles.address}>
+								<div className={styles.address__name}>{order.address.name}</div>
+								<div className={styles.address__line}>
+									{order.address.contactNumber}
+								</div>
+								<div className={styles.address__line}>
+									{order.address.line1}
+									{order.address.line2 ? `, ${order.address.line2}` : ""}
+								</div>
+								<div className={styles.address__line}>
+									{order.address.city}, {order.address.state} -{" "}
+									{order.address.pincode}
+								</div>
+								<div className={styles.address__line}>
+									{order.address.country}
+								</div>
 							</div>
-							<div className={styles.address__line}>
-								{order.address.line1}
-								{order.address.line2 ? `, ${order.address.line2}` : ""}
-							</div>
-							<div className={styles.address__line}>
-								{order.address.city}, {order.address.state} -{" "}
-								{order.address.pincode}
-							</div>
-							<div className={styles.address__line}>
-								{order.address.country}
-							</div>
-						</div>
+						) : (
+							<div className={styles.address}>—</div>
+						)}
 					</div>
 
 					<div className={styles.section} style={{ marginTop: 16 }}>
