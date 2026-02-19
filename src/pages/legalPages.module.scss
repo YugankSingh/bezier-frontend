@@ -1,0 +1,74 @@
+.page {
+	max-width: 940px;
+	margin: 0;
+	display: grid;
+	gap: 18px;
+	padding: 6px 0 10px;
+}
+
+.pageHeading {
+	margin: 0;
+	font-size: clamp(34px, 4.2vw, 46px);
+	line-height: 1.05;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var(--primary-text-color);
+}
+
+.lead {
+	background: var(--surface-color);
+	border: 1px solid var(--border-color);
+	border-left: 4px solid var(--accent-color);
+	border-radius: 12px;
+	padding: 16px 18px;
+	color: var(--muted-text-color);
+	line-height: 1.6;
+	box-shadow: 0 8px 18px var(--shadow-color);
+}
+
+.section {
+	background: var(--surface-color);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 16px 18px;
+	box-shadow: 0 8px 18px var(--shadow-color);
+
+	h5 {
+		margin: 0 0 8px;
+		font-size: 24px;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--primary-text-color);
+	}
+
+	p {
+		margin: 0;
+		font-size: 17px;
+		line-height: 1.65;
+		color: var(--muted-text-color);
+	}
+}
+
+.contactBlock {
+	display: grid;
+	gap: 10px;
+
+	strong {
+		color: var(--primary-text-color);
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.page {
+		gap: 14px;
+	}
+
+	.lead,
+	.section {
+		padding: 14px;
+	}
+
+	.pageHeading {
+		font-size: 30px;
+	}
+}
