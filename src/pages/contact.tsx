@@ -25,16 +25,16 @@ function ContactPage() {
 			<section className={styles.section}>
 				<h5>Support Hours</h5>
 				<p>
-					Support response time may vary on weekends, public holidays, and during
-					high order volume periods.
+					Support response time may vary on weekends, public holidays, and
+					during high order volume periods.
 				</p>
 			</section>
 
 			<section className={styles.section}>
 				<h5>Important Note</h5>
 				<p>
-					For faster resolution, please share your order ID and registered contact
-					details when reaching out.
+					For faster resolution, please share your order ID and registered
+					contact details when reaching out.
 				</p>
 			</section>
 		</div>

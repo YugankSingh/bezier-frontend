@@ -6,16 +6,16 @@ function ShippingPage() {
 		<div className={styles.page}>
 			<h2 className={styles.pageHeading}>Shipping</h2>
 			<div className={styles.lead}>
-				This shipping policy explains processing timelines, delivery expectations,
-				and support for shipment-related issues.
+				This shipping policy explains processing timelines, delivery
+				expectations, and support for shipment-related issues.
 			</div>
 
 			<section className={styles.section}>
 				<h5>Order Processing</h5>
 				<p>
 					Orders are usually processed within 1 to 3 business days after
-					successful payment verification, unless otherwise stated on the product
-					page.
+					successful payment verification, unless otherwise stated on the
+					product page.
 				</p>
 			</section>
 
@@ -49,8 +49,8 @@ function ShippingPage() {
 				<h5>Failed Delivery Attempts</h5>
 				<p>
 					If a shipment is returned due to incorrect address, unreachable
-					customer, or repeated failed delivery attempts, re-shipping may require
-					additional charges.
+					customer, or repeated failed delivery attempts, re-shipping may
+					require additional charges.
 				</p>
 			</section>
 

@@ -22,18 +22,18 @@ function FAQPage() {
 			<section className={styles.section}>
 				<h5>2) Are all products always in stock?</h5>
 				<p>
-					Product availability can change without prior notice. In case an item is
-					unavailable after order placement, our team will contact you for the next
-					steps.
+					Product availability can change without prior notice. In case an item
+					is unavailable after order placement, our team will contact you for
+					the next steps.
 				</p>
 			</section>
 
 			<section className={styles.section}>
 				<h5>3) How long does delivery take?</h5>
 				<p>
-					Delivery timelines depend on serviceability, courier operations, weather,
-					and other factors outside our control. Timelines shown at checkout are
-					estimates and not guaranteed delivery commitments.
+					Delivery timelines depend on serviceability, courier operations,
+					weather, and other factors outside our control. Timelines shown at
+					checkout are estimates and not guaranteed delivery commitments.
 				</p>
 			</section>
 
