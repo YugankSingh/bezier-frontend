@@ -38,6 +38,17 @@
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 		border-radius: 4px;
 	}
+	.contentCompact {
+		overflow-y: auto;
+		max-height: 95vh;
+		width: min(420px, 92vw);
+		max-width: 92vw;
+		padding: 18px 16px;
+		background: var(--surface-color);
+		color: var(--primary-text-color);
+		border-radius: 14px;
+		box-shadow: 0 14px 30px var(--shadow-color);
+	}
 	.contentPayment {
 		overflow: hidden;
 		padding: 0;

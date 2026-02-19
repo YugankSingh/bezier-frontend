@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import styles from "./Product.module.scss"
 import ProductImagesSlider from "@/components/ProductImagesSlider"
 import { doc, getDoc } from "firebase/firestore"
@@ -20,12 +20,25 @@ import VariantViewSmall from "@/components/VariantViewSmall"
 import { stringOrObjectID } from "dukon-core-lib/library/common/util"
 import ReactMarkdown from "react-markdown"
 import { callFunction } from "dukon-core-lib/library/frontend/util/callFunction"
+import Modal from "@/components/Modal"
+import LoginRegisterForm from "@/components/LoginRegisterForm"
+import { useRouter } from "next/router"
+import modalStyles from "@/components/Modal.module.scss"
+
+type PendingAddToCartIntent = {
+	productID: string
+	selectedVariants: SelectedVariants
+	createdAt: number
+}
+
+const PENDING_ADD_TO_CART_KEY = "dukon.pendingAddToCart"
+const PENDING_ADD_TO_CART_TTL_MS = 15 * 60 * 1000
 
 const millisecondsInDay = 1000 * 60 * 60 * 24
 
 const getDateTimeAfter = (days: number) => {
 	return new Date(
-		new Date().getTime() + millisecondsInDay * days
+		new Date().getTime() + millisecondsInDay * days,
 	).toLocaleString("default", {
 		month: "long",
 		day: "numeric",
@@ -33,6 +46,7 @@ const getDateTimeAfter = (days: number) => {
 }
 
 function ProductPage({ product }: { product: Product | false }) {
+	const router = useRouter()
 	const auth = useUserState(state => state.auth)
 	const addItemToCart = useUserState(state => state.addItemToCart)
 	const { cartItems } = useUserState(state => state.user.data)
@@ -63,7 +77,7 @@ function ProductPage({ product }: { product: Product | false }) {
 
 	const setSelectedVariant = (
 		variantType: VariantType,
-		variantKey: VariantKey
+		variantKey: VariantKey,
 	) => {
 		const currVariantsInner = variants[variantType]
 		const currVariant = variants[variantType].variantsInner[variantKey]
@@ -77,12 +91,74 @@ function ProductPage({ product }: { product: Product | false }) {
 	useEffect(
 		() =>
 			setExpectedDeliveryDate(getDateTimeAfter(product.expectedDeliveryDays)),
-		[]
+		[],
 	)
+
+	const [shouldShowLoginModal, setShouldShowLoginModal] = useState(false)
+	const [pendingAddToCart, setPendingAddToCart] =
+		useState<PendingAddToCartIntent | null>(null)
+	const isReplayingPendingAdd = useRef(false)
+
+	const redirectTo = useMemo(() => {
+		const asPath = router.asPath
+		if (!asPath || typeof asPath !== "string") return "/"
+		if (!asPath.startsWith("/")) return "/"
+		return asPath
+	}, [router.asPath])
+
+	useEffect(() => {
+		try {
+			const raw = window.localStorage.getItem(PENDING_ADD_TO_CART_KEY)
+			if (!raw) return
+			const parsed = JSON.parse(raw) as PendingAddToCartIntent
+			if (
+				!parsed?.productID ||
+				!parsed?.selectedVariants ||
+				!parsed?.createdAt
+			) {
+				window.localStorage.removeItem(PENDING_ADD_TO_CART_KEY)
+				return
+			}
+			if (Date.now() - parsed.createdAt > PENDING_ADD_TO_CART_TTL_MS) {
+				window.localStorage.removeItem(PENDING_ADD_TO_CART_KEY)
+				return
+			}
+			if (parsed.productID !== product._id) return
+			setPendingAddToCart(parsed)
+		} catch {
+			window.localStorage.removeItem(PENDING_ADD_TO_CART_KEY)
+		}
+	}, [product._id])
+
+	useEffect(() => {
+		if (!auth) return
+		if (!pendingAddToCart) return
+		if (pendingAddToCart.productID !== product._id) return
+		if (isReplayingPendingAdd.current) return
+
+		isReplayingPendingAdd.current = true
+		;(async () => {
+			try {
+				await addItemToCart(
+					pendingAddToCart.productID,
+					pendingAddToCart.selectedVariants,
+				)
+				window.localStorage.removeItem(PENDING_ADD_TO_CART_KEY)
+				setPendingAddToCart(null)
+				setShouldShowLoginModal(false)
+			} catch (error) {
+				console.error(error)
+				toast.error("Could not add item to cart")
+				window.localStorage.removeItem(PENDING_ADD_TO_CART_KEY)
+				setPendingAddToCart(null)
+			} finally {
+				isReplayingPendingAdd.current = false
+			}
+		})()
+	}, [auth, pendingAddToCart, addItemToCart, product._id])
 
 	// todo : alter this
 	const onAddToCart = async () => {
-		if (!auth) return toast.error("You need to login first")
 		for (let variantType of variantsOrder) {
 			if (!selectedVariants[variantType])
 				return toast.error(`Please select a ${variantType}`)
@@ -95,6 +171,23 @@ function ProductPage({ product }: { product: Product | false }) {
 		if (!variantObject.inStock)
 			return toast.error("The Variant is out of stock")
 
+		if (!auth) {
+			const intent: PendingAddToCartIntent = {
+				productID: product._id,
+				selectedVariants,
+				createdAt: Date.now(),
+			}
+			setPendingAddToCart(intent)
+			try {
+				window.localStorage.setItem(
+					PENDING_ADD_TO_CART_KEY,
+					JSON.stringify(intent),
+				)
+			} catch {}
+			setShouldShowLoginModal(true)
+			return
+		}
+
 		await addItemToCart(product._id, selectedVariants)
 	}
 
@@ -102,6 +195,21 @@ function ProductPage({ product }: { product: Product | false }) {
 		<main className={styles.productPage}>
 			{!!product && (
 				<>
+					<Modal
+						shouldShow={shouldShowLoginModal}
+						handleClose={() => setShouldShowLoginModal(false)}
+						hideActions
+						showCloseButton
+						contentClassName={modalStyles.contentCompact}
+					>
+						<LoginRegisterForm
+							mode="modal"
+							redirectTo={redirectTo}
+							onLoggedIn={() => {
+								setShouldShowLoginModal(false)
+							}}
+						/>
+					</Modal>
 					<div className={styles.left}>
 						<ProductImagesSlider
 							product={product}
@@ -193,7 +301,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 			"fetchProductFrontendServer",
 			{ productID, frontend_server_key: process.env.FRONTEND_SERVER_KEY || "" },
 			false,
-			websiteConfig.storeID
+			websiteConfig.storeID,
 		)
 		console.log(apiRes)
 

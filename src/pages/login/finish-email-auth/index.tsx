@@ -20,6 +20,10 @@ function EmailAuth({ user }: EmailAuthProps) {
 	const [isEmailInStorage, setIsEmailInStorage] = useState(false)
 	const isSigningIn = useRef(false)
 	const router = useRouter()
+	const redirectTo =
+		typeof router.query.redirect === "string" && router.query.redirect
+			? router.query.redirect
+			: "/"
 
 	useEffect(() => {
 		if (!!user) return
@@ -42,10 +46,10 @@ function EmailAuth({ user }: EmailAuthProps) {
 					const { user } = await signInWithEmailLink(
 						auth,
 						email,
-						window.location.href
+						window.location.href,
 					)
 					window.localStorage.removeItem("emailForSignIn")
-					router.push("/")
+					router.push(redirectTo)
 					return [true]
 				} catch (error: any) {
 					if (error.code == "auth/invalid-email")
@@ -66,7 +70,7 @@ function EmailAuth({ user }: EmailAuthProps) {
 			},
 			() => {
 				setIsEmailInStorage(false)
-			}
+			},
 		)
 		isSigningIn.current = false
 	}
